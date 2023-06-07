@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Web E-commerce Java</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+<div th:replace="customer/fragment/navbar :: navbar"></div>
+<!--   Product Detail-->
+
+<h1>Product Detail</h1>
+
+<div class="container">
+    <!-- Product -->
+    <div class="row">
+        <div class="col-sm-12">
+            <!--Product List-->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="row">
+                        <aside class="col-sm-5 border-right">
+                            <article class="gallery-wrap">
+                                <div class="img-small-wrap">
+                                    <div > <a href="#"><img th:src="${p.img}" style = "width:100%;"></a></div>
+                                </div> <!-- slider-product.// -->
+
+                            </article> <!-- gallery-wrap .end// -->
+                        </aside>
+                        <aside class="col-sm-7">
+                            <article class="card-body p-5">
+                                <h3 class="title mb-3" th:text="*{p.name}">Name</h3>
+
+                                <p class="price-detail-wrap">
+                                            <span class="price h3 text-warning">
+                                                <span th:text="*{p.price}"  class="num" style="color:#2b6054" >Price $</span>
+                                            </span>
+                                    <!--<span>/per kg</span>-->
+                                </p> <!-- price-detail-wrap .// -->
+                                <dl class="item-property">
+                                    <dt>Description</dt>
+                                    <dd><p th:text="*{p.description}"></p></dd>
+                                </dl>
+
+                                <hr>
+                                <a th:href="@{/cart/addtocart/{productId}(productId=${p.id})}" class="btn btn-sm btn-outline-primary text-uppercase" style="background-color: #2b6054 ; color: white; ">
+                                    Add to cart </a>
+                            </article> <!-- card-body.// -->
+                        </aside> <!-- col.// -->
+
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Container-->
+
+<div th:replace="customer/fragment/footer :: footer"></div>
+
+
+</body>
+</html>

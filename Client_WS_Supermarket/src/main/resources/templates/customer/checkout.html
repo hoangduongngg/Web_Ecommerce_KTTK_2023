@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div th:replace="customer/fragment/navbar :: navbar"></div>
+<h1>Checkout Payment:</h1>
+<div class="container">
+
+    <!-- Cart -->
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body p-4">
+
+                        <!-- Danh sach mat hang -->
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div>
+<!--                                        <p class="mb-0">You have ${list_od.size()} items in your cart</p>-->
+                                    </div>
+
+                                </div>
+<!--                                <c:forEach items="${list_od}" var = "od">-->
+                                    <div class="card mb-3" th:each="od:${list_od}">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <div>
+                                                        <img
+                                                                th:src="${od.product.img }"
+                                                                class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                    </div>
+                                                    <div class="ms-3">
+                                                        <h5 th:text="${od.product.name}"></h5>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <div style="width: 50px;">
+                                                        <h5 th:text="${od.quantity}" class="fw-normal mb-0"></h5>
+                                                    </div>
+                                                    <div style="width: 80px;">
+                                                        <h5 th:text="${od.price}" class="mb-0"></h5>
+                                                    </div>
+                                                    <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+<!--                                </c:forEach>-->
+                            </div>
+
+                            <!-- Thong tin   -->
+                            <div class="col-lg-6">
+
+                                <div class="card text-white rounded-3" style="background-color: #2b6054;">
+                                    <div class="card-body">
+
+                                        <!-- Thong tin ca nhan  -->
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <h5 class="mb-0">Customer Infor</h5>
+                                        </div>
+
+
+                                        <form class="mt-4">
+                                            <div class="form-outline form-white mb-4">
+                                                <input type="text" class="form-control form-control-lg" siez="17"
+                                                       value="Hoang Duong" />
+                                                <label class="form-label" >Full Name</label>
+                                            </div>
+
+                                            <div class="form-outline form-white mb-4">
+                                                <input type="text" class="form-control form-control-lg" siez="17"
+                                                       value="hoangduongnguyen.ptit@gmail.com" minlength="19" maxlength="19" />
+                                                <label class="form-label" >Email</label>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-outline form-white mb-4">
+                                                        <input type="text" class="form-control form-control-lg" siez="17"
+                                                               value="Bac Ninh" minlength="19" maxlength="19" />
+                                                        <label class="form-label" >Address</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-outline form-white mb-4">
+                                                        <input type="text" class="form-control form-control-lg" siez="17"
+                                                               value="0123456789" minlength="19" maxlength="19" />
+                                                        <label class="form-label" >Tel</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                        <!-- Thong tin thanh toan -->
+                                        <hr class="my-4">
+<!--                                        <div class="d-flex justify-content-between align-items-center mb-4">-->
+<!--                                            <h5 class="mb-0">Card details</h5>-->
+<!--                                        </div>-->
+
+
+<!--                                        <form class="mt-4">-->
+<!--                                            <div class="form-outline form-white mb-4">-->
+<!--                                                <input type="text" id="typeName" class="form-control form-control-lg" siez="17"-->
+<!--                                                       value=" ${paymentCard.cardName}" />-->
+
+<!--                                                <label class="form-label" for="typeName">Card Name</label>-->
+<!--                                            </div>-->
+
+<!--                                            <div class="form-outline form-white mb-4">-->
+<!--                                                <input type="text" id="typeText" class="form-control form-control-lg" siez="17"-->
+<!--                                                       value="${paymentCard.cardNumber}" minlength="19" maxlength="19" />-->
+<!--                                                <label class="form-label" for="typeText">Card Number</label>-->
+<!--                                            </div>-->
+
+<!--                                            <div class="row mb-4">-->
+<!--                                                <div class="col-md-6">-->
+<!--                                                    <div class="form-outline form-white">-->
+<!--                                                        <input type="text" id="typeExp" class="form-control form-control-lg"-->
+<!--                                                               value="${paymentCard.cardOutDate}" size="7" id="exp" minlength="7" maxlength="7" />-->
+<!--                                                        <label class="form-label" for="typeExp">Expiration</label>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-md-6">-->
+<!--                                                    <div class="form-outline form-white">-->
+<!--                                                        <input type="password" id="typeText" class="form-control form-control-lg"-->
+<!--                                                               placeholder="***" size="1" minlength="3" maxlength="3" />-->
+<!--                                                        <label class="form-label" for="typeText">CVV</label>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+<!--                                        </form>-->
+
+                                        <hr class="my-4">
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Subtotal</p>
+                                            <p th:text="${order.totalOrder}" class="mb-2"> $</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Shipping</p>
+                                            <p class="mb-2">0 $</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <p class="mb-2">Total(Incl. taxes)</p>
+                                            <p th:text="${order.totalOrder} " class="mb-2">$</p>
+                                        </div>
+
+                                        <!-- Button -->
+                                        <a th:href="@{/order/pay}">
+                                            <button type="button" class="btn btn-info btn-dark btn-block btn-lg" >
+                                                <div class="d-flex justify-content-between">
+                                                    <span th:text="${order.totalOrder}"></span>
+                                                    <span>Confirm Payment <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </button>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of cart -->
+
+</div>
+
+<div th:replace="customer/fragment/footer :: footer">&copy; 2016 The Static Templates</div>
+
+</body>
+</html>
+

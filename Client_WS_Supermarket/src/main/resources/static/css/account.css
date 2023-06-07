@@ -1,0 +1,21 @@
+.btn-register{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    justify-content: center;
+    text-align: center;
+}
+.btn{
+    width: 450px;
+    height: 40px;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+}
+
+.register-form{
+    width: 1000px;
+    background-color: red;
+}

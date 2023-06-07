@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Web E-commerce</title>
+        <link th:href="@{/css/addProduct.css}" rel="stylesheet" type="text/css"/>
+        <script th:src="@{/js/updateProduct.js}"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Update product</h1>
+            <a id="id" th:value="${p.id}" style="display: none"></a>
+            <div class="add-product">
+                <div class="column">
+                    <div class="field-input field-name">
+                        <label>Product name</label>
+                        <input id="name" class="input" type="text" th:value="${p.name}" required>
+                    </div>
+                    <div class="field-input field-price" >
+                        <label>Price</label>
+                        <input id="price" class="input" type="number" th:value="${p.price}" required >
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="field-input feild-unit" >
+                        <label>Number in stock</label>
+                        <input id="units" class="input" type="number" th:value="${p.quantity}" required >
+                    </div>
+                    <div class="field-input feild-exp" >
+                        <label>Expiration date</label>
+                        <input id="exp" class="input" type="text" th:value="${p.expirationDate}" required >
+                    </div>
+                </div>
+
+                <div class="field-input feild-description" style=" width: 100%;">
+                    <label>Description</label>
+                    <textarea id="description" class="input" th:text="${p.description}" style="height: 100px"></textarea>
+                </div>
+
+                <input type="file" id="file-input" class="custom-file-input" name="fileUpload" accept="image/*">
+                <div style="padding: 10px;">
+                    <input class="submit" type="button" value="Submit" onclick="updateProduct()">
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+    <script>
+        
+    </script>
+</html>

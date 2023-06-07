@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Web E-commerce</title>
+        <link th:href="@{/css/addProduct.css}" rel="stylesheet" type="text/css"/>
+        <script th:src="@{/js/addProduct.js}"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Add product</h1>
+            <div class="add-product">
+                <div class="column">
+                    <div class="field-input field-name">
+                        <label>Product name</label>
+                        <input id="name" class="input" type="text" required>
+                    </div>
+                    <div class="field-input field-price" >
+                        <label>Price</label>
+                        <input id="price" class="input" type="number" required >
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="field-input feild-unit" >
+                        <label>Number in stock</label>
+                        <input id="units" class="input" type="number" required >
+                    </div>
+                    <div class="field-input feild-exp" >
+                        <label>Expiration date</label>
+                        <input id="exp" class="input" type="text" required >
+                    </div>
+                </div>
+
+                <div class="field-input feild-description" style=" width: 100%;">
+                    <label>Description</label>
+                    <textarea id="decription" class="input" ></textarea>
+                </div>
+
+                <input type="file" id="file-input" class="custom-file-input" name="fileUpload" accept="image/*">
+                <div style="padding: 10px;">
+                    <input class="submit" type="button" value="Submit" onclick="addProduct()">
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+    <script>
+        
+    </script>
+</html>
