@@ -20,8 +20,8 @@ public class PaypalConfig {
 //    @Value("${paypal.mode}")
 //    private String mode;
 
-    private String clientId="AfhFyzOMaULltBu7IyBMMaclrG1NfZuEfOIheOEaxffXpcUxV7nTVbsAtA2Qs4_173t6qkvjb3vZSgi4";
-    private String clientSecret="EKRsCp0E3KFXHWQCZMXLymHqTor9jU8viGmHd85FIKxzNYXzmiz2x841K4CwLF2SS7ncOyjlzY77Pm8B";
+    private String clientId="AZKm_B4_6Rr9J-vqII4vd0T4RJ4K9uHOZ4uky4wdail6mjvOROhsU2fK_J6Kneft4t301i7PKfpzWbp4";
+    private String clientSecret="EOgIir-o8iivoMxRI4yG0h9deF34sJW1nv50XBS3id4evh0yQboUTOC1qtPA9nNgtTAoXFjkxlci3pM0";
     private String mode="sandbox";
 
     public Map paypalConfig() {
