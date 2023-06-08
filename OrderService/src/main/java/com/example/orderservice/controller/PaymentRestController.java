@@ -4,28 +4,24 @@ import com.example.orderservice.model.DTO.Order;
 import com.example.orderservice.model.entity.OrderEntity;
 import com.example.orderservice.repository.OrderRepository;
 import com.example.orderservice.service.OrderService;
-import com.example.orderservice.service.PayWithPaypalService;
-import com.example.orderservice.model.entity.OrderEntity;
+import com.example.orderservice.service.PaypalService;
 //import com.example.orderservice.model.PaymentDetailsEntity;
-import com.example.orderservice.repository.OrderRepository;
 //import com.example.orderservice.repository.PaymentDetailsRepository;
-import com.example.orderservice.service.PayWithPaypalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.paypal.api.payments.Payment;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 
 @RestController
 @RequestMapping("/")
 @CrossOrigin("*")
-public class PaymentController {
+public class PaymentRestController {
     public static final String PAYPAL_SUCCESS_URL = "pay/success";
     public static final String PAYPAL_CANCEL_URL = "pay/cancel";
 
@@ -33,24 +29,24 @@ public class PaymentController {
     private OrderRepository orderRepository;
 
     @Autowired
-    private PayWithPaypalService payWithPaypalService;
+    private PaypalService paypalService;
 
     @Autowired
     private OrderService orderService;
 
-    // http://localhost:8000/pay
-    @PostMapping("/pay")
-    public String payment(@RequestParam int orderId) {
+    // http://localhost:8089/pay
+    @GetMapping("/pay/{orderId}")
+    public String payment(@PathVariable int orderId) {
 
         String token = "";
         try {
             OrderEntity orderEntity = orderRepository.findOrderEntityById(orderId);
             Order order = new Order(orderEntity);
             System.out.println("Đã chạy được đến Pay Service: " + order);
-            System.out.println(order.getTotalOrder());
-//            OrderEntity order = orderRepository.findOrderEntityById(orderId);
-            Payment payment = payWithPaypalService.createPayment(
-                    (double) (order.getTotalOrder()),
+            System.out.println((double) order.getTotalOrder());
+            Double total = Double.valueOf(order.getTotalOrder());
+            Payment payment = paypalService.createPayment(
+                    total,
                     "USD",
                     "paypal",
                     "sale",
@@ -59,19 +55,11 @@ public class PaymentController {
                     "http://localhost:8089/" + PAYPAL_SUCCESS_URL);
             System.out.println(payment);
 
-//            PaymentDetailsEntity paymentDetails = new PaymentDetailsEntity();
-//            paymentDetails.setOrderId(orderId);
-//            paymentDetails.setAmount(order.getAmount());
-//            paymentDetails.setPaymentStatus("PENDING");
-
             for(Links link:payment.getLinks()) {
                 if(link.getRel().equals("approval_url")) {
                     String[] s = link.getHref().split("=");
                     token = s[2];
-//                    paymentDetails.setToken(token);
-//                    paymentDetailsRepository.save(paymentDetails);
 
-//                    OrderEntity orderEntity = orderRepository.findById(order.getId());
                     orderEntity.setStatusOrder(token);
                     orderRepository.save(orderEntity);
                     return link.getHref();
@@ -88,37 +76,21 @@ public class PaymentController {
     public String cancelPay(
             @RequestParam("token") String token
     ) {
-//        PaymentDetailsEntity paymentDetails = paymentDetailsRepository.getByToken(token);
-//        paymentDetails.setPaymentDate(LocalDateTime.now());
-//        paymentDetails.setPaymentStatus("PAYMENT CANCELLED");
-//        paymentDetailsRepository.save(paymentDetails);
-
         OrderEntity orderEntity = orderRepository.findByStatusOrder(token);
         orderEntity.setStatusOrder("order");
         orderRepository.save(orderEntity);
         System.out.println("Thanh toan chua thanh cong!");
-
-//        OrderEntity order = orderRepository.findOrderEntityById(paymentDetails.getOrderId());
-//        order.setPaymentType("PAYPAL");
-//        order.setPaymentStatus("PAYMENT CANCELLED");
-//        order.setPaymentDate(Date.from(Instant.now()));
-//        orderRepository.save(order);
         return "payment failed";
     }
     @GetMapping(value = PAYPAL_SUCCESS_URL)
-    public String successPay(
+    public ResponseEntity<String> successPay(
             @RequestParam("paymentId") String paymentId,
             @RequestParam("token") String token,
             @RequestParam("PayerID") String payerId) {
         try {
-            Payment payment = payWithPaypalService.executePayment(paymentId, payerId);
+            Payment payment = paypalService.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
-//                PaymentDetailsEntity paymentDetails = paymentDetailsRepository.getByToken(token);
-//                paymentDetails.setPaymentDate(LocalDateTime.now());
-//                paymentDetails.setPaymentStatus("PAYMENT SUCCESS");
-//                paymentDetailsRepository.save(paymentDetails);
-
                 OrderEntity orderEntity = orderRepository.findByStatusOrder(token);
                 orderEntity.setPaymentDate(getCurrentDate());
                 orderEntity.setStatusOrder("bill");
@@ -126,17 +98,14 @@ public class PaymentController {
                 orderRepository.save(orderEntity);
                 System.out.println("Thanh tooan thanh cong luc:" + orderEntity.getPaymentDate());
 
-//                OrderEntity order = orderRepository.findOrderEntityById(paymentDetails.getOrderId());
-//                order.setPaymentType("PAYPAL");
-//                order.setPaymentStatus("PAYMENT SUCCESS");
-//                order.setPaymentDate(Date.from(Instant.now()));
-//                orderRepository.save(order);
-                return "payment success";
+//                return "payment success";
+                return new ResponseEntity<>("payment/success", HttpStatus.OK);
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());
         }
-        return "payment success";
+        return new ResponseEntity<>("payment/success", HttpStatus.OK);
+
     }
 
     private Date getCurrentDate() {
@@ -144,5 +113,6 @@ public class PaymentController {
         java.sql.Date date = new java.sql.Date(millis);
         return date;
     }
+
 
 }
