@@ -50,9 +50,26 @@ public class AccountController {
         ResponseEntity<Account> responseEntity;
         try {
             responseEntity = rest.getForEntity(url, Account.class);
-            session.setAttribute("account", responseEntity.getBody());
+            Account account = responseEntity.getBody();
+
+            session.setAttribute("account", account);
             System.out.println(responseEntity.getBody());
-            return "redirect:./";
+            try {
+                if (account== null) {
+                    return "redirect:login";
+                }
+                if (account.getRole().equalsIgnoreCase("customer")) {
+                    return "redirect:./";
+                }
+                else if(account.getRole().equalsIgnoreCase("admin")){
+                    return "redirect:admin";
+                }else{
+                    return "redirect:warehouse";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "redirect:login";
+            }
         } catch (Exception e) {
             return "account/login";
         }

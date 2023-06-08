@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -48,6 +49,22 @@ public class OrderController {
         model.addAttribute("order", order);
 
         return "customer/waitingforpayment";
+    }
+
+    @GetMapping("back_to_cart")
+    public RedirectView back_to_cart(HttpSession session, Model model) {
+        Order order = (Order) session.getAttribute("order");
+        order.setStatusOrder("cart");
+        order.setOrderDate(null);
+        order = rest.postForObject("http://localhost:8089/api/order/update",order, Order.class);
+        session.setAttribute("order", order);
+        System.out.println("Back to Cart.");
+
+        List<OrderDetail> list_od = order.getDetails();
+        model.addAttribute("list_od", list_od);
+        model.addAttribute("order", order);
+
+        return new RedirectView("/cart");
     }
 
     @GetMapping("pay")

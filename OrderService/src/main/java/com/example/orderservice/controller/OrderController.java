@@ -34,6 +34,16 @@ public class OrderController {
         }
     }
 
+    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Order> update (@RequestBody Order order) {
+        order = orderService.back_to_cart(order);
+        if (order == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(order);
+        }
+    }
+
     @PostMapping(value = "/waitingforpayment", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> waitingforpayment (@RequestBody Order order) {
         //Neu la Cart thi set thanh Order

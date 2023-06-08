@@ -5,6 +5,7 @@ import com.example.client_ws_supermarket.model.Customer;
 import com.example.client_ws_supermarket.model.Order;
 import com.example.client_ws_supermarket.model.Product;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +17,13 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("")
-public class HomeController {
-
+@RequestMapping("warehouse")
+public class WareHouseStaffController {
     protected RestTemplate rest = new RestTemplate();
 
-    @GetMapping("/")
+    @GetMapping("")
     public String home(HttpSession session, Model model) {
         // Kiem tra neu la Admin thi chuyen den trang admin
         try {
@@ -34,35 +32,29 @@ public class HomeController {
                 return "redirect:login";
             }
             if (account.getRole().equalsIgnoreCase("customer")) {
-                return home_customer(session, model);
+                return home_warehouse(session, model);
             }
             else if(account.getRole().equalsIgnoreCase("admin")){
                 return "redirect:admin";
             }else{
-                return "redirect:warehouse";
+                return home_warehouse(session, model);
             }
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:login";
         }
 
-        
-    }
-    
-//    @GetMapping("admin")
-//    public RedirectView adminRedirect() {
-//        String externalUrl = "http://localhost:8099";
-//        return new RedirectView(externalUrl);
-//    }
 
-    @PostMapping ("/")
+    }
+
+    @PostMapping("")
     public String search_home (HttpSession session, Model model, @RequestParam String keyword) {
         System.out.println(keyword);
         model.addAttribute("keyword", keyword);
-        return home_customer(session, model);
+        return home_warehouse(session, model);
     }
 
-    private String home_customer (HttpSession session, Model model) {
+    private String home_warehouse (HttpSession session, Model model) {
         List<Product> listP = new ArrayList<>();
 
         try {
@@ -90,33 +82,11 @@ public class HomeController {
         }catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println(listP);
 
-        //Add fix cung du lieu -> Test FE
         Account account =(Account) session.getAttribute("account");
 
-        String urlCustomer = "http://localhost:8082/customer?id="+account.getIdUser();
-        ResponseEntity<Customer> responseEntity;
-        responseEntity = rest.getForEntity(urlCustomer, Customer.class);
-        Customer customer = responseEntity.getBody();
-
-        try {
-            Order cart = rest.getForObject("http://localhost:8089/api/cart/{customerID}", Order.class, customer.getId());
-            session.setAttribute("order", cart);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        session.setAttribute("customer", customer);
-
+        session.setAttribute("account", account);
         model.addAttribute("listP", listP);
-        return "customer/home";
+        return "warehouse/home";
     }
-
-    @GetMapping("/logout")
-    public RedirectView logout(HttpSession session) {
-        session.setAttribute("customer", null);
-        session.setAttribute("account", null);
-        return new RedirectView("/login");
-    }
-
 }

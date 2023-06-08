@@ -58,12 +58,12 @@ public class ProductController {
         return "admin/listProduct";
     }
     
-    @GetMapping("add-product")
+    @GetMapping("add")
     public String viewAddProduct(){
         return "admin/addProduct";
     }
     
-    @GetMapping("updateProduct/{id}")
+    @GetMapping("update/{id}")
     public String updateProduct(Model model,@PathVariable int id){
         Product p = new Product();
 
@@ -78,7 +78,7 @@ public class ProductController {
         return "admin/updateProduct";
     }
     
-    @GetMapping("deleteProduct/{id}")
+    @GetMapping("delete/{id}")
     public String deletProduct(Model model,@PathVariable int id){
         
         String url = "http://localhost:8081/delete-product?id=" + id;

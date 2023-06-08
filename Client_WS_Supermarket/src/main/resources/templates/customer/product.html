@@ -41,7 +41,7 @@
 
                                 <p class="price-detail-wrap">
                                             <span class="price h3 text-warning">
-                                                <span th:text="*{p.price}"  class="num" style="color:#2b6054" >Price $</span>
+                                                <span th:text="${p.price} + '$'"  class="num" style="color:#2b6054" >Price $</span>
                                             </span>
                                     <!--<span>/per kg</span>-->
                                 </p> <!-- price-detail-wrap .// -->
@@ -51,8 +51,21 @@
                                 </dl>
 
                                 <hr>
-                                <a th:href="@{/cart/addtocart/{productId}(productId=${p.id})}" class="btn btn-sm btn-outline-primary text-uppercase" style="background-color: #2b6054 ; color: white; ">
-                                    Add to cart </a>
+
+
+                                <div th:if="${session.customer != null}">
+                                    <a th:href="@{/cart/addtocart/{productId}(productId=${p.id})}" class="btn btn-sm btn-outline-primary text-uppercase" style="background-color: #2b6054 ; color: white; ">
+                                        Add to cart </a>
+                                </div>
+
+                                <div th:if="${session.account.role == 'warehouse'}">
+                                    <a th:href="@{/product/update/{productId}(productId=${p.id})}" class="btn btn-sm btn-outline-primary text-uppercase" style="background-color: #2b6054 ; color: white; ">
+                                        Update product </a>
+
+                                    <a th:href="@{/product/delete/{productId}(productId=${p.id})}" class="btn btn-sm btn-outline-primary text-uppercase" style="background-color: #8f0000 ; color: white; ">
+                                        Delete product </a>
+                                </div>
+
                             </article> <!-- card-body.// -->
                         </aside> <!-- col.// -->
 

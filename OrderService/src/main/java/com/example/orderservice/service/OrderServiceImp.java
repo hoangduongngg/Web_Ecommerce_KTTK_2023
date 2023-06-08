@@ -14,6 +14,8 @@ import java.util.Optional;
 public class OrderServiceImp implements OrderService{
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderAdapter adapter;
 
     @Override
     public Order getCartByCustomerId (Integer id) {
@@ -43,6 +45,21 @@ public class OrderServiceImp implements OrderService{
         }
         catch (Exception e) {
             System.out.println("Order Servcie: Chua them duoc ngay Order Date.");
+        }
+
+        return order;
+    }
+
+    @Override
+    public Order back_to_cart (Order order) {
+        try {
+            OrderEntity orderEntity = orderRepository.findOrderEntityById(order.getId());
+            orderEntity.setStatusOrder("cart");
+            orderEntity.setOrderDate(null);
+            orderRepository.save(orderEntity);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
         return order;

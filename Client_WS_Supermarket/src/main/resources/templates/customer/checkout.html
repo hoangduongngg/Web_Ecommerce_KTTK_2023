@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -165,11 +164,19 @@
                                         </div>
 
                                         <!-- Button -->
-                                        <a th:href="@{/order/pay}">
+                                        <a th:href="@{/order/waitingforpayment}">
                                             <button type="button" class="btn btn-info btn-dark btn-block btn-lg" >
                                                 <div class="d-flex justify-content-between">
                                                     <span th:text="${order.totalOrder}"></span>
                                                     <span>Confirm Payment <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </button>
+                                        </a>
+
+                                        <a th:href="@{/order/back_to_cart}" class="mt-5">
+                                            <button type="button" class="btn btn-info btn-dark btn-block btn-lg mt-2" >
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Cancel <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                                 </div>
                                             </button>
                                         </a>
