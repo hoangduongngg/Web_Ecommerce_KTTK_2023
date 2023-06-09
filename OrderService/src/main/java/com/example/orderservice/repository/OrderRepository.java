@@ -15,7 +15,7 @@ public interface OrderRepository extends JpaRepository <OrderEntity, Integer> {
     OrderEntity findOrderEntityById (Integer id);
     OrderEntity findByStatusOrder(String statusOrder);
 
-//    List<OrderEntity> findAllByPaymentDateYear(Integer year);
+    List<OrderEntity> findByPaymentDateBetween(Date dateStart, Date dateEnd);
 //    List<OrderEntity> findByPaymentDateYearAndPaymentDateMonth(Integer year, Integer month);
     List<OrderEntity> findByPaymentDate(Date date);
 

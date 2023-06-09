@@ -69,7 +69,8 @@
   <!-- Order -->
   <div th:if="${listO.size() >0}">
     <div>
-      <h4 th:text=" 'Thống kê dữ liệu ngày:' + ${request.localDate}"></h4>
+      <h4 th:if="${request.optionSelect == 'day'}" th:text=" 'Thống kê dữ liệu ngày:' + ${request.localDate}"></h4>
+      <h4 th:if="${request.optionSelect == 'year'}" th:text=" 'Thống kê dữ liệu năm:' + ${request.localDate.getYear()}"></h4>
       <h4 th:text=" 'Tổng số doanh thu: ' + ${totalOrder}"></h4>
 
     </div>

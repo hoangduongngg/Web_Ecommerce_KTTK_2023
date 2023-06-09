@@ -85,8 +85,9 @@ public class OrderServiceImp implements OrderService{
     public List<Order> statistic_by_time(LocalDate localDate, String optionSelect) {
         List<OrderEntity> entityList = new ArrayList<>();
         switch (optionSelect) {
-//            case "year":
-//                entityList = orderRepository.findByPaymentDateYear(localDate.getYear());
+            case "year":
+                entityList = findAllByEventDateYear(localDate.getYear());
+                return adapter.adapter_toListOrder(entityList);
 //            case "month":
 //                entityList = orderRepository.findByPaymentDateYearAndPaymentDateMonth(localDate.getYear(), localDate.getMonthValue());
             case "day":
@@ -96,6 +97,21 @@ public class OrderServiceImp implements OrderService{
         }
 
         return adapter.adapter_toListOrder(entityList);
+    }
+
+    public List<OrderEntity> findAllByEventDateYear(int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.DAY_OF_YEAR, 1);
+        Date dateStart = cal.getTime();
+
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, 11); // 11 = december
+        cal.set(Calendar.DAY_OF_MONTH, 31);
+        Date dateEnd = cal.getTime();
+
+        List<OrderEntity> listO = orderRepository.findByPaymentDateBetween(dateStart, dateEnd);
+        return listO;
     }
 
     private Date getCurrentDate() {
