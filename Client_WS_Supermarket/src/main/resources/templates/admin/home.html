@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Admin</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-Hello Admin
+<div th:replace="customer/fragment/navbar :: navbar"></div>
+
+<div class="masthead">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center">
+            <div class="col-lg-6">
+                <!-- Mashead text and app badges-->
+                <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                    <h1 class="display-1 lh-1 mb-3">Admin Home</h1>
+                    <p class="lead fw-normal text-muted mb-5">Check statistic HERE!</p>
+                    <div class="d-flex flex-column flex-lg-row align-items-center">
+                        <a class="me-lg-3 mb-4 mb-lg-0" th:href="@{/admin/statisticbytime}">
+                            <button style="background-color: #2b6054;" type="button" class="btn btn-primary rounded-pill mb-1 mb-lg-0">
+                                Statistic by Time
+                            </button>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="customer/fragment/footer :: footer">&copy; 2016 The Static Templates</div>
+
 </body>
 </html>
+

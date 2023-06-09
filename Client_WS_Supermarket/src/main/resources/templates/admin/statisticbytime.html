@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Statistic by Time</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div th:replace="customer/fragment/navbar :: navbar"></div>
+
+<div class="container mt-5">
+  <h2 class="mt-5">Statistic by Time.</h2>
+<!--  <input id="optionSelectValue" th:value="${optionSelect}">-->
+<!--  <script>-->
+<!--    var  optionSelectValue = document.getElementById("optionSelectValue").value;-->
+
+<!--  </script>-->
+
+  <!-- Search and Cart -->
+  <div>
+    <form th:action="@{/admin/statisticbytime}" method="post" class="form-inline my-2 my-lg-0">
+<!--     Select time-->
+      <div>
+        <label for="optionSelect"  class="form-group">Statític by:</label>
+<!--        <select id="optionSelect" name="optionSelect">-->
+        <select id="optionSelect" name="optionSelect" onchange="showDateFields()">
+          <option value="empty" >Choose an option</option>
+          <option value="year" th:selected="${optionSelect == 'year'}">By Year</option>
+          <option value="month" th:selected="${optionSelect == 'month'}">By Month</option>
+          <option value="day" th:selected="${optionSelect == 'day'}">By Day</option>
+        </select>
+
+        <div id="yearFields" style="display: block;" class="form-group">
+          <label for="yearSelect">Select a year:</label>
+          <select name="year" id="yearSelect" onchange="handleChange(this)" th:value="${year}">
+          </select>
+        </div>
+
+        <div id="monthFields" style="display: block;"  class="form-group">
+          <label for="monthSelect">Select a month:</label>
+          <select name="month" id="monthSelect" onchange="handleChange(this) ; updateDayOptions()" th:sel="${month}">
+          </select>
+        </div>
+
+        <div id="dayFields" style="display: block;"  class="form-group">
+          <label for="daySelect">Select a day:</label>
+          <select name="day" id="daySelect">
+          </select>
+        </div>
+
+
+      </div>
+      <br>
+      <button type="submit" class="btn btn-sm btn-outline-primary text-uppercase" style="background-color: #2b6054 ; color: white; ">
+        Search </button>
+    </form>
+  </div>
+
+  <div th:if="${listO.size()==0}">
+    <h2>There are no order according to search.</h2>
+  </div>
+  <!-- Order -->
+  <div th:if="${listO.size() >0}">
+    <table class="table">
+      <tbody>
+      <tr style="background-color: #2b6054; color: white;" class="table-active">
+        <th  scope="row">ID Order</th>
+        <td colspan="2">Customer</td>
+<!--        <td>Order status</td>-->
+<!--        <td>Delivery status</td>-->
+<!--        <td>Order Date</td>-->
+        <td>Payment Date</td>
+        <td>Total</td>
+        <td> </td>
+      </tr>
+
+<!--      <c:forEach items="${listO}" var = "o">-->
+        <tr th:each="o: ${listO}">
+          <th th:text="${o.id}"  scope="row"> </th>
+          <td th:text="${o.customer.id}" colspan="2">  </td>
+<!--          <td th:text="${o.statusDelivery}">  </td>-->
+<!--          <td th:text="${o.orderDate}">  </td>-->
+          <td th:text="${o.paymentDate}">  </td>
+          <td th:text="${o.totalOrder}">  </td>
+<!--          <td><a  th:href="@{order/{id}(id=${o.id})}">-->
+          <td>
+            <a href="#">
+              <button style="background-color: #2b6054; color: white;" class="btn btn-primary">
+                Detail
+              </button>
+            </a>
+          </td>
+        </tr>
+<!--      </c:forEach>-->
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- EndOrderList -->
+</div>
+  <!--Year-->
+  <script>
+    var selectYear = document.getElementById('yearSelect');
+    var currentYear = new Date().getFullYear();
+
+    for (var year = 1980; year <= 2023; year++) {
+      var option = new Option(year, year);
+      selectYear.appendChild(option);
+
+      if (year === currentYear) {
+        option.selected = true;
+      }
+    }
+
+    function handleChange(select) {
+      var selected = select.value;
+      console.log('Selected:', selected);
+      // Thực hiện các hành động khác khi giá trị được chọn thay đổi
+    }
+  </script>
+  <!--Month-->
+  <script>
+    var selectMonth = document.getElementById('monthSelect');
+    var currentMonth = new Date().getMonth() + 1;
+
+    for (var month = 1; month <= 12; month++) {
+      var option = new Option(month, month);
+      selectMonth.appendChild(option);
+
+      if (month === currentMonth) {
+        option.selected = true;
+      }
+    }
+
+  </script>
+
+
+<!--Show select by Choose-->
+<script>
+  function showDateFields() {
+    var optionSelect = document.getElementById("optionSelect");
+    var selectedOption = optionSelect.value;
+
+
+    var yearFields = document.getElementById("yearFields");
+    var monthFields = document.getElementById("monthFields");
+    var dayFields = document.getElementById("dayFields");
+
+    if (selectedOption === "year") {
+      yearFields.style.display = "block";
+      monthFields.style.display = "none";
+      dayFields.style.display = "none";
+
+
+    } else if (selectedOption === "month") {
+      yearFields.style.display = "block";
+      monthFields.style.display = "block";
+      dayFields.style.display = "none";
+    } else if (selectedOption === "day") {
+      yearFields.style.display = "block";
+      monthFields.style.display = "block";
+      dayFields.style.display = "block";
+    } else {
+      yearFields.style.display = "none";
+      monthFields.style.display = "none";
+      dayFields.style.display = "none";
+    }
+  }
+</script>
+
+<!--Update day by month-->
+<script>
+  function updateDayOptions() {
+    var monthSelect = document.getElementById("monthSelect");
+    var daySelect = document.getElementById("daySelect");
+    var selectedMonth = parseInt(monthSelect.value);
+    var daysInMonth = new Date(new Date().getFullYear(), selectedMonth, 0).getDate();
+
+    // Xóa các tùy chọn ngày hiện tại
+    while (daySelect.firstChild) {
+      daySelect.removeChild(daySelect.firstChild);
+    }
+
+    // Thêm các tùy chọn ngày mới
+    for (var i = 1; i <= daysInMonth; i++) {
+      var option = document.createElement("option");
+      option.value = i;
+      option.text = i;
+      daySelect.appendChild(option);
+    }
+  }
+
+  // Gọi hàm updateDayOptions ban đầu để hiển thị ngày cho tháng mặc định
+  updateDayOptions();
+</script>
+</body>
+</html>
+

@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+
 @Component
 public class OrderServiceImp implements OrderService{
     @Autowired
@@ -78,6 +79,23 @@ public class OrderServiceImp implements OrderService{
             System.out.println("Order Servcie: Chua them duoc ngay Order Date.");
         }
         return order;
+    }
+
+    @Override
+    public List<Order> statistic_by_time(LocalDate localDate, String optionSelect) {
+        List<OrderEntity> entityList = new ArrayList<>();
+        switch (optionSelect) {
+//            case "year":
+//                entityList = orderRepository.findByPaymentDateYear(localDate.getYear());
+//            case "month":
+//                entityList = orderRepository.findByPaymentDateYearAndPaymentDateMonth(localDate.getYear(), localDate.getMonthValue());
+            case "day":
+                Date date = java.sql.Date.valueOf(localDate);
+                System.out.println("OrderService: " + date);
+                entityList = orderRepository.findByPaymentDate(date);
+        }
+
+        return adapter.adapter_toListOrder(entityList);
     }
 
     private Date getCurrentDate() {

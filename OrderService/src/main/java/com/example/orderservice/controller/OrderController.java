@@ -1,6 +1,7 @@
 package com.example.orderservice.controller;
 
 import com.example.orderservice.model.DTO.Order;
+import com.example.orderservice.model.request.StatisticTimeRequest;
 import com.example.orderservice.repository.OrderRepository;
 import com.example.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/order", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin("*")
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    OrderRepository repository;
 
     @PostMapping(value = "/checkout", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> checkout (@RequestBody Order order) {
@@ -60,5 +67,18 @@ public class OrderController {
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(order);
         }
+    }
+
+    @PostMapping(value = "/statistic_time", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Order>> statistic_time (@RequestBody StatisticTimeRequest request) throws Exception{
+        List<Order> list = new ArrayList<>();
+        try {
+            list = orderService.statistic_by_time(request.getLocalDate(), request.getOptionSelect());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("statistic_time: " + request.getLocalDate() + request.getOptionSelect());
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 }
