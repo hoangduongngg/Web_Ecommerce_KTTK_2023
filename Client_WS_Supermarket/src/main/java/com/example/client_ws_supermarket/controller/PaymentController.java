@@ -29,4 +29,9 @@ public class PaymentController {
 
     }
 
+    @GetMapping ("success")
+    public String success() {
+        return "customer/payment/success";
+    }
+
 }

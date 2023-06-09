@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Date;
 
@@ -83,7 +84,7 @@ public class PaymentRestController {
         return "payment failed";
     }
     @GetMapping(value = PAYPAL_SUCCESS_URL)
-    public ResponseEntity<String> successPay(
+    public RedirectView successPay(
             @RequestParam("paymentId") String paymentId,
             @RequestParam("token") String token,
             @RequestParam("PayerID") String payerId) {
@@ -99,12 +100,14 @@ public class PaymentRestController {
                 System.out.println("Thanh tooan thanh cong luc:" + orderEntity.getPaymentDate());
 
 //                return "payment success";
-                return new ResponseEntity<>("payment/success", HttpStatus.OK);
+//                return new ResponseEntity<>("payment/success", HttpStatus.OK);
+                return new RedirectView("http://localhost:8000/payment/success");
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());
         }
-        return new ResponseEntity<>("payment/success", HttpStatus.OK);
+//        return new ResponseEntity<>("payment/success", HttpStatus.OK);
+        return new RedirectView("http://localhost:8000/payment/success");
 
     }
 

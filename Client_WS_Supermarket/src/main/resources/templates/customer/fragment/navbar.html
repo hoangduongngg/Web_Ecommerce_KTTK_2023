@@ -20,9 +20,9 @@
 
 
         <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-          <div th:if="${session.customer != null}">
-            <li class="nav-item"><a class="nav-link me-lg-3" th:text="${session.customer.name}"  > </a></li>
-          </div>
+<!--          <div th:if="${session.customer != null}">-->
+<!--            <li class="nav-item"><a class="nav-link me-lg-3" th:text="${session.customer.name}"  > </a></li>-->
+<!--          </div>-->
 
           <div th:if="${session.account != null}">
             <li th:if="${session.customer != null}" class="nav-item"><a class="nav-link me-lg-3" th:text="${session.customer.name}"  > </a></li>
