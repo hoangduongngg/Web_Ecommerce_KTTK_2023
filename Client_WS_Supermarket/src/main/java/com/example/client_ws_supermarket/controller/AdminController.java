@@ -78,8 +78,20 @@ public class AdminController {
         model.addAttribute("month", month);
         model.addAttribute("year", year);
 
+        model.addAttribute("totalOrder", totalList(listO));
+        model.addAttribute("request", request);
         model.addAttribute("listO", listO);
         return "admin/statisticbytime";
+    }
+
+    private Long totalList(List<Order> listO) {
+        Long total = 0L;
+        for (Order o: listO
+        ) {
+            total += o.getTotalOrder();
+        }
+
+        return total;
     }
 
 }

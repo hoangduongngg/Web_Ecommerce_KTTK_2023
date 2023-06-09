@@ -68,6 +68,11 @@
   </div>
   <!-- Order -->
   <div th:if="${listO.size() >0}">
+    <div>
+      <h4 th:text=" 'Thống kê dữ liệu ngày:' + ${request.localDate}"></h4>
+      <h4 th:text=" 'Tổng số doanh thu: ' + ${totalOrder}"></h4>
+
+    </div>
     <table class="table">
       <tbody>
       <tr style="background-color: #2b6054; color: white;" class="table-active">
