@@ -25,8 +25,15 @@
           </div>
 
           <div th:if="${session.account != null}">
-            <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/logout}" style="opacity: 50%">Logout</a></li>
+            <li th:if="${session.customer != null}" class="nav-item"><a class="nav-link me-lg-3" th:text="${session.customer.name}"  > </a></li>
+            <li th:if="${session.account.role == 'admin'}" class="nav-item"> <a class="nav-link me-lg-3" >Hello Admin </a></li>
+            <li th:if="${session.account.role == 'warehouse'}" class="nav-item"> <a class="nav-link me-lg-3" >Hello Warehouse Staff </a></li>
+
+
+
           </div>
+
+          <li th:if="${session.account != null}" class="nav-item"><a class="nav-link me-lg-3" th:href="@{/logout}" style="opacity: 50%">Logout</a></li>
 
           <div th:if="${session.account == null}">
             <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/login}" style="opacity: 90%">Login</a></li>

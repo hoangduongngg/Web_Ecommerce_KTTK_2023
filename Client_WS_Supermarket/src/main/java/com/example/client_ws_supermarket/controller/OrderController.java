@@ -67,21 +67,21 @@ public class OrderController {
         return new RedirectView("/cart");
     }
 
-    @GetMapping("pay")
-    public String payment_Paypal(HttpSession session) {
-        Order order = (Order) session.getAttribute("order");
-        System.out.println("Đã chạy được đến Pay Client");
-        try {
-            String pay_link = rest.getForObject("http://localhost:8089/pay?orderId=" + order.getId(), String.class);
-            if (pay_link == null) {
-                System.out.println("pay_link return null");
-            }
-            return pay_link;
-        }
-        catch (Exception e) {
-            System.out.println("");
-            return "customer/waitingforpayment";
-        }
-
-    }
+//    @GetMapping("pay")
+//    public String payment_Paypal(HttpSession session) {
+//        Order order = (Order) session.getAttribute("order");
+//        System.out.println("Đã chạy được đến Pay Client");
+//        try {
+//            String pay_link = rest.getForObject("http://localhost:8089/pay?orderId=" + order.getId(), String.class);
+//            if (pay_link == null) {
+//                System.out.println("pay_link return null");
+//            }
+//            return pay_link;
+//        }
+//        catch (Exception e) {
+//            System.out.println("");
+//            return "customer/waitingforpayment";
+//        }
+//
+//    }
 }
